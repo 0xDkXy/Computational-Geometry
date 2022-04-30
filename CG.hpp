@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 namespace CompG{
         
@@ -126,36 +126,3 @@ namespace CompG{
     }
     bool transverse(Line a, Line b) {return _transverse(a, b);}
 };
-
-
-int main()
-{
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(0);
-    int q;
-    std::cin >> q;
-    while (q--) {
-        double x1,x2,x3,x4,y1,y2,y3,y4;
-        std::cin >> x1 >> y1;
-        std::cin >> x2 >> y2;
-        std::cin >> x3 >> y3;
-        std::cin >> x4 >> y4;
-        CompG::vec2 v0(x2-x1, y2-y1);
-        CompG::vec2 v1(x4-x3, y4-y3);
-        double dot = CompG::dot(v0, v1);
-        double cross = CompG::cross(v0,v1);
-        double absv0 = CompG::abs(v0);
-        double absv1 = CompG::abs(v1);
-        if (CompG::doubleEqual(dot, absv0*absv1) ||
-            CompG::doubleEqual(dot, -absv0*absv1)) {
-            // 平行
-            std::cout << 2 << "\n";
-        } else if (CompG::doubleEqual(dot, 0.0)) {
-            // 垂直
-            std::cout << 1 << "\n";
-        } else {
-            std::cout << 0 << "\n";
-        }
-    }
-    return 0;
-}

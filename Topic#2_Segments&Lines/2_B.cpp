@@ -1,4 +1,5 @@
-#include<bits/stdc++.h>
+
+#include <bits/stdc++.h>
 
 namespace CompG{
         
@@ -111,9 +112,9 @@ namespace CompG{
 
     bool _quickRejection(Line &a, Line &b)
     {
-        if (_QJcompare(a.p[0].x, a.p[1].x, b.p[0].x, b.p[0].x) &&
-            _QJcompare(a.p[0].y, a.p[1].y, b.p[0].y, b.p[0].y)) return true;
-        else return false;
+        if (_QJcompare(a.p[0].x, a.p[1].x, b.p[0].x, b.p[1].x) ||
+            _QJcompare(a.p[0].y, a.p[1].y, b.p[0].y, b.p[1].y)) return false;
+        else return true;
     }
     bool quickRejection(Line a, Line b) {return _quickRejection(a, b);}
 
@@ -122,13 +123,13 @@ namespace CompG{
         vec2 va = a.toVec2();
         vec2 ab1(b.p[0] - a.p[0]), ab2(b.p[1] - a.p[0]);
         double crossVal = cross(va, ab1) * cross(va, ab2);
-        return crossVal < 0 ? true : false;
+        return crossVal <= 0 ? true : false;
     }
     bool transverse(Line a, Line b) {return _transverse(a, b);}
 };
 
 
-int main()
+signed main()
 {
     std::ios::sync_with_stdio(false);
     std::cin.tie(0);
@@ -140,22 +141,19 @@ int main()
         std::cin >> x2 >> y2;
         std::cin >> x3 >> y3;
         std::cin >> x4 >> y4;
-        CompG::vec2 v0(x2-x1, y2-y1);
-        CompG::vec2 v1(x4-x3, y4-y3);
-        double dot = CompG::dot(v0, v1);
-        double cross = CompG::cross(v0,v1);
-        double absv0 = CompG::abs(v0);
-        double absv1 = CompG::abs(v1);
-        if (CompG::doubleEqual(dot, absv0*absv1) ||
-            CompG::doubleEqual(dot, -absv0*absv1)) {
-            // 平行
-            std::cout << 2 << "\n";
-        } else if (CompG::doubleEqual(dot, 0.0)) {
-            // 垂直
-            std::cout << 1 << "\n";
-        } else {
-            std::cout << 0 << "\n";
-        }
-    }
+        CompG::Line a(x1, y1, x2, y2), b(x3, y3, x4, y4);
+        int ans = 0;
+        // if (CompG::isParallel(a.toVec2(), b.toVec2())) 
+        //     ans = 0;
+        // else {
+        //     if (CompG::_quickRejection(a, b))
+        //         if (CompG::_transverse(a, b) && CompG::_transverse(b, a))
+        //             ans = 1;
+        // }
+        if (CompG::_quickRejection(a, b))
+            if (CompG::_transverse(a, b) && CompG::_transverse(b, a))
+                ans = 1;
+        std::cout << ans << "\n";
+    }    
     return 0;
 }
