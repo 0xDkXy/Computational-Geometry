@@ -22,6 +22,7 @@ namespace Comp2G{
             this->y += p.y;
             return *this;
         }
+        friend void operator<<(std::ostream &os, Point& a) {os << a.x << " " << a.y;}
 
         friend std::ostream& operator<<(std::ostream &out, const Point &a)
         {
@@ -137,12 +138,31 @@ namespace Comp2G{
     bool isIntersection(Line a, Line b) {return _isIntersection(a, b);}
 
     // 返回两条线段/或直线的交点，使用前需先判断直线相交 
-    Point _CrossPoint(Line &a, Line &b)
+    Point _crossPoint(Line &a, Line &b)
     {
-        vec2 vu = b.p[0] - a.p[0]; // b0->a0
+        vec2 vu = a.p[0] - b.p[0]; // b0->a0
         vec2 va = a.toVec2(), vb = b.toVec2();
-        double i = std::abs(cross(va, vb)) * std::abs(cross(vu, vb));
-        vec2 Ta = va.toUnit()*i;
-        return a.p[0] + Ta;
+        double i = (std::abs(cross(vu, vb))) / (std::abs(cross(va, vb)));
+        vec2 Ta = va*i;
+        return a.p[0] - Ta;
     }
+
+    Point crossPoint(Line a, Line b) {return _crossPoint(a, b);}
 };
+ 
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(0);
+    int t;
+    std::cin >> t;
+    while (t--) {
+        int x1,x2,x3,x4,y1,y2,y3,y4;
+        std::cin >> x1 >> y1;
+        std::cin >> x2 >> y2;
+        std::cin >> x3 >> y3;
+        std::cin >> x4 >> y4;
+        std::cout << Comp2G::crossPoint(Comp2G::Line(x1,y1,x2,y2), Comp2G::Line(x3,y3,x4,y4)) << "\n";
+    }
+    return 0;
+}
