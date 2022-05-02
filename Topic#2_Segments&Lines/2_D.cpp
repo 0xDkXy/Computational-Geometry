@@ -164,3 +164,43 @@ namespace Comp2G{
     double _distance(Point &a, Point &b) { double x = a.x-b.x, y = a.y-b.y; return sqrt(x*x+y*y);}
     double distance(Point a, Point b) {return _distance(a, b);}
 };
+
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(0);
+    int t;
+    std::cin >> t;
+    while (t--) {
+        double x1,x2,x3,x4,y1,y2,y3,y4;
+        std::cin >> x1 >> y1;
+        std::cin >> x2 >> y2;
+        std::cin >> x3 >> y3;
+        std::cin >> x4 >> y4;
+        Comp2G::Line a(x1, y1, x2, y2), b(x3, y3, x4, y4);
+        double ans = .0;
+        if (Comp2G::_isIntersection(a, b)) ;
+        else {
+            ans = 1e18;
+            Comp2G::Point pa = Comp2G::projection(a, b.p[0]);
+            if (a.isOnLine(pa))
+                ans = std::min(ans, Comp2G::distance(pa, b.p[0]));
+            pa = Comp2G::projection(a, b.p[1]);
+            if (a.isOnLine(pa))
+                ans = std::min(ans, Comp2G::distance(pa, b.p[1]));
+            pa = Comp2G::projection(b, a.p[0]);
+            if (b.isOnLine(pa))
+                ans = std::min(ans, Comp2G::distance(pa, a.p[0]));
+            pa = Comp2G::projection(b, a.p[1]);
+            if (b.isOnLine(pa))
+                ans = std::min(ans, Comp2G::distance(pa, a.p[1]));
+            ans = std::min(ans, Comp2G::distance(a.p[0], b.p[0]));
+            ans = std::min(ans, Comp2G::distance(a.p[0], b.p[1]));
+            ans = std::min(ans, Comp2G::distance(a.p[1], b.p[0]));
+            ans = std::min(ans, Comp2G::distance(a.p[1], b.p[1]));
+        }
+        std::cout << std::setprecision(10) << std::fixed << ans << "\n";
+    }
+    return 0;
+
+}
