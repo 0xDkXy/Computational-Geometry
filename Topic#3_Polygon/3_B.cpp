@@ -187,7 +187,8 @@ int main()
     // std::cout << *(stk.end()) << "\n";
     for (int i = 1; i < n; ++i) {
         while (stk.size() > 1 &&
-            Comp2G::_cross(v[*(stk.end()-1)] - v[*(stk.end()-2)], v[i] - v[*(stk.end()-1)]) < 0) {
+            // 不包含在边上的点则改为 <=, 下方求上半凸包同理
+            Comp2G::_cross(v[*(stk.end()-1)] - v[*(stk.end()-2)], v[i] - v[*(stk.end()-1)]) < 0) { 
             used[*(stk.end()-1)] = 0;
             stk.pop_back();
         } 
