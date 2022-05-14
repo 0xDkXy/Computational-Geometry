@@ -222,3 +222,19 @@ std::vector<Comp2G::Point> Comp2G::getConvexPolygon(std::vector<Comp2G::Point> v
         rlt.push_back(v[stk[i]]);
     return rlt;
 }
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(0);
+    int n;
+    std::cin >> n;
+    std::vector<Comp2G::Point> pit;
+    for (int i = 0; i < n; ++i) {
+        double a,b;
+        std::cin >> a >> b;
+        pit.emplace_back(a,b);
+    }
+    auto tmp = Comp2G::getConvexPolygon(pit);
+    std::cout << std::setprecision(10) << std::fixed << Comp2G::getLongest(tmp) << "\n";
+    return 0;
+}
